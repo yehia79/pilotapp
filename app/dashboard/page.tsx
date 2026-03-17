@@ -1,6 +1,13 @@
+"use client";
+import { useState } from "react";
+
 export default function Dashboard() {
-  return (
-    <>
+    
+// inside the function:
+const [hoursOpen, setHoursOpen] = useState(false);
+    
+    return (
+ <>
       {/* Topbar */}
       <div className="h-[50px] border-b border-gray-200 flex items-center justify-between px-8 flex-shrink-0">
         <div className="flex items-center gap-1.5 text-sm">
@@ -17,10 +24,10 @@ export default function Dashboard() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-10 py-8">
+      <div className="flex-1 overflow-y-auto px-12 py-8 w-full max-w-5xl ">
         <h1 className="text-xl font-bold text-black mb-1">Good morning, Yehia</h1>
         <p className="text-xs text-gray-400 mb-8">PPL Stage</p>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-x-16 gap-y-10">
 
   {/* PPL Progress */}
   <div>
@@ -29,67 +36,68 @@ export default function Dashboard() {
       <span className="font-semibold text-black">Overall completion</span>
       <span className="font-semibold text-blue-500">42%</span>
     </div>
-    <div className="h-[3px] bg-gray-100 rounded-full mb-4">
-      <div className="h-[3px] bg-blue-500 rounded-full w-[42%]" />
+    <div className="h-[4px] bg-gray-100 rounded-full mb-4">
+      <div className="h-[4px] bg-blue-500 rounded-full w-[42%]" />
     </div>
-    <div className="flex items-center justify-between py-2 border-t border-gray-100 cursor-pointer">
-      <span className="text-xs font-medium text-gray-500">Flight Hours</span>
-      <span className="text-[11px] text-gray-400">17 / 40 hrs</span>
-    </div>
+<div 
+  className="flex items-center justify-between py-2 border-t border-gray-100 cursor-pointer"
+  onClick={() => setHoursOpen(!hoursOpen)}
+>
+  <span className="text-xs font-medium text-gray-500">Flight Hours</span>
+  <div className="flex items-center gap-2">
+    <span className="text-[11px] text-gray-400">17 / 40 hrs</span>
+    <span className="text-[10px] text-gray-300">{hoursOpen ? "▲" : "▼"}</span>
+  </div>
+</div>
+
+{hoursOpen && (
+  <div className="flex flex-col gap-2 pt-2">
+    {[
+      { label: "Total", value: "17 / 40", pct: "42%" },
+      { label: "Solo", value: "2 / 10", pct: "20%" },
+      { label: "Cross country", value: "1.5 / 5", pct: "30%" },
+      { label: "Night", value: "3 / 3", pct: "100%" },
+      { label: "Dual received", value: "15 / 20", pct: "75%" },
+    ].map((h) => (
+      <div key={h.label} className="flex items-center gap-2">
+        <span className="text-[11px] text-gray-400 w-24">{h.label}</span>
+        <div className="flex-1 h-[3px] bg-gray-100 rounded-full">
+          <div className="h-[3px] bg-blue-500 rounded-full" style={{ width: h.pct }} />
+        </div>
+        <span className="text-[11px] font-semibold text-black w-12 text-right">{h.value}</span>
+      </div>
+    ))}
+  </div>
+)}
   </div>
 
   {/* Study Progress */}
-  <div>
-    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-3">Study Progress</p>
+ {/* Study Progress */}
+<div>
+  <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-3">Study Progress</p>
 
-    <div className="flex items-center gap-2.5 py-2.5 border-b border-gray-100">
-      <div className="w-6 h-6 rounded-md bg-gray-50 flex items-center justify-center flex-shrink-0">
-        <span className="text-[10px]">📖</span>
+  {[
+    { label: "Notes", value: "58%", sub: "Chapter 7 of 12", pct: 58, color: "#3b82f6" },
+    { label: "Flashcards", value: "71%", sub: "284 of 400 mastered", pct: 71, color: "#8b5cf6" },
+    { label: "Question Bank", value: "35%", sub: "312 of 900 · avg 78%", pct: 35, color: "#16a34a" },
+  ].map((item) => (
+    <div key={item.label} className="flex items-center gap-4 py-2.5 border-b border-gray-100 last:border-none">
+      <div className="w-[120px] flex-shrink-0">
+        <p className="text-xs font-medium text-black">{item.label}</p>
+        <p className="text-[10px] text-gray-400 mt-0.5">{item.sub}</p>
       </div>
-      <div className="flex-1">
-        <div className="flex justify-between mb-1">
-          <span className="text-xs font-medium text-black">Notes</span>
-          <span className="text-[11px] font-semibold text-blue-500">58%</span>
-        </div>
-        <div className="h-[2px] bg-gray-100 rounded-full">
-          <div className="h-[2px] bg-blue-500 rounded-full w-[58%]" />
-        </div>
-        <span className="text-[10px] text-gray-400">Chapter 7 of 12</span>
+      <div className="flex-1 h-[3px] bg-gray-100 rounded-full">
+        <div
+          className="h-[3px] rounded-full"
+          style={{ width: `${item.pct}%`, background: item.color }}
+        />
       </div>
+      <span className="text-xs font-semibold w-8 text-right" style={{ color: item.color }}>
+        {item.value}
+      </span>
     </div>
-
-    <div className="flex items-center gap-2.5 py-2.5 border-b border-gray-100">
-      <div className="w-6 h-6 rounded-md bg-gray-50 flex items-center justify-center flex-shrink-0">
-        <span className="text-[10px]">🃏</span>
-      </div>
-      <div className="flex-1">
-        <div className="flex justify-between mb-1">
-          <span className="text-xs font-medium text-black">Flashcards</span>
-          <span className="text-[11px] font-semibold text-purple-500">71%</span>
-        </div>
-        <div className="h-[2px] bg-gray-100 rounded-full">
-          <div className="h-[2px] bg-purple-500 rounded-full w-[71%]" />
-        </div>
-        <span className="text-[10px] text-gray-400">284 of 400 mastered</span>
-      </div>
-    </div>
-
-    <div className="flex items-center gap-2.5 py-2.5">
-      <div className="w-6 h-6 rounded-md bg-gray-50 flex items-center justify-center flex-shrink-0">
-        <span className="text-[10px]">✅</span>
-      </div>
-      <div className="flex-1">
-        <div className="flex justify-between mb-1">
-          <span className="text-xs font-medium text-black">Question Bank</span>
-          <span className="text-[11px] font-semibold text-green-500">35%</span>
-        </div>
-        <div className="h-[2px] bg-gray-100 rounded-full">
-          <div className="h-[2px] bg-green-500 rounded-full w-[35%]" />
-        </div>
-        <span className="text-[10px] text-gray-400">312 of 900 · avg 78%</span>
-      </div>
-    </div>
-  </div>
+  ))}
+</div>
 
   {/* Weak Topics */}
   <div>
@@ -116,28 +124,39 @@ export default function Dashboard() {
   </div>
 
   {/* Quick Actions */}
-  <div>
-    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-3">Quick Actions</p>
+{/* Upcoming Lesson */}
+<div>
 
-    {[
-      { name: "Continue Notes", sub: "Weather Theory — Ch.7", color: "bg-blue-500" },
-      { name: "Daily Flashcards", sub: "12 cards due", color: "bg-purple-500" },
-      { name: "Mock Exam", sub: "Last score: 78%", color: "bg-green-500" },
-      { name: "Log a Flight", sub: "Last entry: 3 days ago", color: "bg-orange-400" },
-    ].map((action) => (
-      <div key={action.name} className="flex items-center justify-between px-3 py-2.5 rounded-lg border border-gray-200 hover:border-blue-200 hover:bg-blue-50 transition-colors cursor-pointer mb-1.5 last:mb-0">
-        <div className="flex items-center gap-2.5">
-          <div className={`w-1.5 h-1.5 rounded-full ${action.color}`} />
-          <div>
-            <p className="text-xs font-medium text-black">{action.name}</p>
-            <p className="text-[10px] text-gray-400">{action.sub}</p>
-          </div>
-        </div>
-        <span className="text-xs text-gray-300">→</span>
-      </div>
-    ))}
+    
+  <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-3">Upcoming Lesson</p>
+
+  <div className="mt-3">
+    <span className="text-[11px] font-semibold text-blue-500 cursor-pointer hover:text-blue-600">
+      + Add lesson →
+    </span>
   </div>
 
+  {[
+    {
+      date: "Tomorrow · 09:00",
+      title: "Circuits and Landings",
+      suggestion: "Review traffic pattern procedures and VASI/PAPI reading",
+    },
+    {
+      date: "Saturday · 14:00",
+      title: "Navigation Exercise",
+      suggestion: "Review VOR tracking and pilotage techniques",
+    },
+  ].map((lesson) => (
+    <div key={lesson.title} className="py-2.5 border-b border-gray-100 last:border-none">
+      <p className="text-[10px] text-gray-400 font-medium mb-0.5">{lesson.date}</p>
+      <p className="text-xs font-semibold text-black mb-1">{lesson.title}</p>
+      <p className="text-[10px] text-gray-400 leading-relaxed">Suggested: {lesson.suggestion}</p>
+    </div>
+  ))}
+
+
+</div>
 </div>
       </div>
     </>
