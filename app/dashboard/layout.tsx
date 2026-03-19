@@ -29,7 +29,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isNotes = pathname.startsWith("/dashboard/notes") || pathname.startsWith("/dashboard/flashcards");
+  const isNotes = pathname.startsWith("/dashboard/notes") || pathname.startsWith("/dashboard/flashcards") || pathname.startsWith("/dashboard/flightlog") || pathname.startsWith("/dashboard/tester") || pathname.startsWith("/dashboard/weather") || pathname.startsWith("/dashboard/atc") || pathname.startsWith("/dashboard/tester") || pathname.startsWith("/dashboard/weather");
 
 if (isNotes) {
   return (
